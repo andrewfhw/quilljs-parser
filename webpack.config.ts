@@ -1,5 +1,6 @@
 import * as path from 'path';
 import { Configuration } from 'webpack';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
 const config: Configuration = {
     mode: 'production',
@@ -21,6 +22,9 @@ const config: Configuration = {
         library: 'QuillParser',
         libraryTarget: 'umd'
     },
+    plugins: [
+        new CleanWebpackPlugin()
+    ],
     externals: {}
 };
 
