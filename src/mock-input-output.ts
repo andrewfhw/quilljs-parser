@@ -53,6 +53,8 @@ export const test_header: ParseTest = {
             attributes: {
                 header: 2
             }
+        },{
+            textRuns: []
         }]
     }
 }
@@ -75,6 +77,10 @@ export const test_multi_paragraph: ParseTest = {
         },{
             textRuns: [{
                 text: 'This is the third paragraph in the list.'
+            }]
+        },{
+            textRuns: [{
+                text: ''
             }]
         }]
     }
@@ -162,6 +168,8 @@ export const test_formatted_runs: ParseTest = {
                     underline: true
                 }
             }]
+        },{
+            textRuns: []
         }]
     }
 }
@@ -271,6 +279,10 @@ export const test_other_run_format: ParseTest = {
                 attributes: undefined
             }],
             attributes: undefined
+        },{
+            textRuns: [{
+                text: ''
+            }]
         }]
     }
 }
@@ -426,6 +438,8 @@ export const test_list_run_formatting: ParseTest = {
             attributes: {
                 list: 'ordered'
             }
+        },{
+            textRuns: []
         }]
     }
 }
@@ -465,6 +479,10 @@ export const test_embed: ParseTest = {
             }],
             attributes: undefined
         },{
+            textRuns: [{
+                text: ''
+            }]
+        },{
             embed: {
                 video: 'https://www.linktovideotowatch.com/video'
             },
@@ -485,6 +503,10 @@ export const test_embed: ParseTest = {
             },{
                 text: '.',
                 attributes: undefined
+            }]
+        },{
+            textRuns: [{
+                text: ''
             }]
         }]
     }
@@ -533,13 +555,10 @@ export const test_other_line_formatting: ParseTest = {
         paragraphs: [{
             textRuns: [{
                 text: 'Here is some basic text.',
-                attributes: undefined
             }],
-            attributes: undefined
         },{
             textRuns: [{
                 text: 'This is formatted as a code block.',
-                attributes: undefined
             }],
             attributes: {
                 "code-block": true
@@ -547,13 +566,10 @@ export const test_other_line_formatting: ParseTest = {
         },{
             textRuns: [{
                 text: 'Then we go back to some normal text.',
-                attributes: undefined
             }],
-            attributes: undefined
         },{
             textRuns: [{
                 text: 'Now this is a block quote.',
-                attributes: undefined
             }],
             attributes: {
                 blockquote: true
@@ -561,13 +577,10 @@ export const test_other_line_formatting: ParseTest = {
         },{
             textRuns: [{
                 text: 'And back to normal text paragraph.',
-                attributes: undefined
             }],
-            attributes: undefined
         },{
             textRuns: [{
                 text: 'Next we will align center.',
-                attributes: undefined
             }],
             attributes: {
                 align: 'center'
@@ -575,7 +588,6 @@ export const test_other_line_formatting: ParseTest = {
         },{
             textRuns: [{
                 text: 'This is a line aligned to the right.',
-                attributes: undefined
             }],
             attributes: {
                 align: 'right'
@@ -583,11 +595,12 @@ export const test_other_line_formatting: ParseTest = {
         },{
             textRuns: [{
                 text: 'And this line will go from the right to the left.',
-                attributes: undefined
             }],
             attributes: {
                 direction: 'rtl'
             }
+        },{
+            textRuns: []
         }]
     }
 }
@@ -609,23 +622,26 @@ export const test_full_run_format: ParseTest = {
         paragraphs: [{
             textRuns: [{
                 text: 'Some basic text in the editor.',
-                attributes: undefined
             }],
-            attributes: undefined
         },{
             textRuns: [{
+                text: ''
+            },{
                 text: 'This line is completely underlined.',
                 attributes: {
                     underline: true
                 }
+            },{
+                text: ''
             }],
-            attributes: undefined
         },{
             textRuns: [{
                 text: 'But then we just start a new line.',
-                attributes: undefined
             }],
-            attributes: undefined
+        },{
+            textRuns: [{
+                text: ''
+            }]
         }]
     }
 }
@@ -685,6 +701,8 @@ export const test_mixed_run_formatting: ParseTest = {
             attributes: {
                 list: 'bullet'
             }
+        },{
+            textRuns: []
         }]
     }
 }
