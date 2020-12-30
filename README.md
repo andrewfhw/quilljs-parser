@@ -1,4 +1,5 @@
 # QuillJS Parser
+Transform your QuillJS contents into an easier-to-use paragraph format.
 
 ## Installation
 You can install QuillJS Parser with npm.
@@ -19,7 +20,7 @@ const parsedQuill = quillParser.parseQuillDelta(rawQuillDelta);
 
 This package transforms the content of a QuillJS editor into an easy-to-work-with paragraph format.
 
-By default, a QuillJS editor outputs its content in the Quill delta format. While the delta format works great for a browser-based editor like Quill, it's not the most convenient data format if you'd like to generate other types of documents (e.g., Word) from Quill's contents. 
+By default, a QuillJS editor outputs its content in the Quill delta format. While the delta format works great for a browser-based editor like Quill, it's not the most convenient data format if you'd like to generate other types of documents (e.g., Word or PDF) from Quill's contents. 
 
 QuillJS Parser will transform a QuillJS delta into a more convenient paragraph-based format.
 
@@ -73,7 +74,7 @@ paragraphs: [{
 
 ## The Paragraph Format
 
-A parsed QuillJS document is composed entirely of paragraphs. Each `paragraph` must contain either a `textRuns` property or an `embed` property, which indicates the *content* of the paragraph. A `paragraph` may also contain an `attributes` property, which indicates the *formatting* of the paragraph.
+A parsed QuillJS document is composed entirely of **paragraphs**. Each `paragraph` must contain either a `textRuns` property or an `embed` property, which indicates the *content* of the paragraph. A `paragraph` may also contain an `attributes` property, which indicates the *formatting* of the paragraph.
 
 ### `textRuns`
 
