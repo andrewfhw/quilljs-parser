@@ -13,6 +13,7 @@ interface RunAttributes {
     underline?: boolean;
     strike?: boolean;
     font?: string;
+    link?: string;
 }
 
 interface LineAttributes {
@@ -139,6 +140,7 @@ function insertText(op: QuillOp, parsed: ParsedQuillDelta) {
     }
 }
 
+// inserts simple string with attributes
 function insertSimpleString(text: string, parsed: ParsedQuillDelta, attributes?: RunAttributes) {
     if (attributes) {
         parsed.paragraphs[parsed.paragraphs.length-1].textRuns?.push({
