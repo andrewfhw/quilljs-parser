@@ -1,5 +1,5 @@
 # QuillJS Parser
-Transform your [QuillJS](quilljs.com) contents into an easier-to-use paragraph format.
+Transform your [QuillJS](https://quilljs.com) contents into an easier-to-use paragraph format.
 
 ## Installation
 You can install QuillJS Parser with npm.
