@@ -1,10 +1,10 @@
-interface InsertEmbed {
+export interface InsertEmbed {
     image?: string;
     formula?: string;
     video?: string;
 }
 
-interface RunAttributes {
+export interface RunAttributes {
     script?: 'super' | 'sub';
     color?: string;
     background?: string;
@@ -16,7 +16,7 @@ interface RunAttributes {
     link?: string;
 }
 
-interface LineAttributes {
+export interface LineAttributes {
     header?: 1 | 2;
     direction?: 'rtl';
     align?: 'right' | 'left' | 'center' | 'justify';
@@ -41,12 +41,12 @@ export interface RawQuillDelta {
 
 // OUTPUT
 
-interface TextRun {
+export interface TextRun {
     text: string;
     attributes?: RunAttributes;
 }
 
-interface Paragraph {
+export interface Paragraph {
     textRuns?: (TextRun | { formula: string })[];
     embed?: InsertEmbed;
     attributes?: LineAttributes;
