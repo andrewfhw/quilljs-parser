@@ -19,7 +19,7 @@ const config: Configuration = {
     output: {
         filename: 'main.js',
         path: path.resolve(__dirname, 'dist'),
-        library: 'QuillParser',
+        library: 'QuillJSParser',
         libraryTarget: 'umd'
     },
     plugins: [
