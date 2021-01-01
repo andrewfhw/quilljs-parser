@@ -52,15 +52,27 @@ export interface Paragraph {
     attributes?: LineAttributes;
 }
 
+export interface SetupInfo {
+    numberedLists: number;
+    hyperlinks: string[];
+}
+
 export interface ParsedQuillDelta {
     paragraphs: Paragraph[];
+    setup: SetupInfo;
 }
 
 // Functions
 
+let activeNumberedList = false;
+
 export function parseQuillDelta(quill: RawQuillDelta): ParsedQuillDelta {
     const parsed: ParsedQuillDelta = {
-        paragraphs: []
+        paragraphs: [],
+        setup: {
+            numberedLists: 0,
+            hyperlinks: []
+        }
     };
     for (const op of quill.ops) {
         parseOp(op, parsed);
@@ -90,6 +102,7 @@ function startNewParagraph(parsed: ParsedQuillDelta) {
     parsed.paragraphs.push({
         textRuns: []
     });
+    activeNumberedList = false;
 }
 
 // inserts a video or image embed
@@ -116,8 +129,23 @@ function insertNewline(op: QuillOp, parsed: ParsedQuillDelta) {
     // if line attributes, apply those to the previous paragraph
     if (op.attributes) {
         parsed.paragraphs[parsed.paragraphs.length-1].attributes = op.attributes;
+        if (op.attributes.list === 'ordered') {
+            handleOrderedList(parsed);
+        } else {
+            activeNumberedList = false;
+        }
     }
     startNewParagraph(parsed);
+}
+
+// handle ordered lists tracking
+function handleOrderedList(parsed: ParsedQuillDelta) {
+    if (activeNumberedList) {
+        return;
+    } else {
+        activeNumberedList = true;
+        parsed.setup.numberedLists++;
+    }
 }
 
 // inserts text with intermixed newlines and run attributes
@@ -147,6 +175,9 @@ function insertSimpleString(text: string, parsed: ParsedQuillDelta, attributes?:
             text: text,
             attributes: attributes
         });
+        if (attributes.link) {
+            parsed.setup.hyperlinks.push(attributes.link);
+        }
     } else {
         parsed.paragraphs[parsed.paragraphs.length-1].textRuns?.push({
             text: text
