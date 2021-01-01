@@ -11,6 +11,8 @@ import {
     test_other_line_formatting,
     test_full_run_format,
     test_mixed_run_formatting,
+    test_ordered_list_tracking,
+    test_hyperlink_tracking,
 
 } from './mock-input-output';
 
@@ -43,6 +45,14 @@ describe('test parsing', () => {
 
     test('list with run formatting', () => {
         expect(parseQuillDelta(test_list_run_formatting.input)).toEqual(test_list_run_formatting.output);
+    });
+
+    test('properly track multiple ordered lists', () => {
+        expect(parseQuillDelta(test_ordered_list_tracking.input)).toEqual(test_ordered_list_tracking.output);
+    });
+
+    test.only('link tracking', () => {
+        expect(parseQuillDelta(test_hyperlink_tracking.input)).toEqual(test_hyperlink_tracking.output);
     });
 
     test('embeds', () => {

@@ -16,7 +16,11 @@ export const test_basic: ParseTest = {
             textRuns: [{
                 text: 'Hello there!'
             }]
-        }]
+        }],
+        setup: {
+            hyperlinks: [],
+            numberedLists: 0
+        }
     }
 }
 
@@ -39,6 +43,10 @@ export const test_header: ParseTest = {
         }]
     },
     output: {
+        setup: {
+            hyperlinks: [],
+            numberedLists: 0
+        },
         paragraphs: [{
             textRuns: [{
                 text: 'A Level One Heading'
@@ -66,6 +74,10 @@ export const test_multi_paragraph: ParseTest = {
         }]
     },
     output: {
+        setup: {
+            hyperlinks: [],
+            numberedLists: 0
+        },
         paragraphs: [{
             textRuns: [{
                 text: 'This is a test of the basic paragraph parsing.'
@@ -121,6 +133,10 @@ export const test_formatted_runs: ParseTest = {
         }]
     },
     output: {
+        setup: {
+            hyperlinks: [],
+            numberedLists: 0
+        },
         paragraphs: [{
             attributes: undefined,
             textRuns: [{
@@ -216,6 +232,10 @@ export const test_other_run_format: ParseTest = {
         }]
     },
     output: {
+        setup: {
+            hyperlinks: [],
+            numberedLists: 0
+        },
         paragraphs: [{
             textRuns: [{
                 text: 'Here is a test of the ',
@@ -323,6 +343,10 @@ export const test_bullet_list: ParseTest = {
         }]
     },
     output: {
+        setup: {
+            hyperlinks: [],
+            numberedLists: 0
+        },
         paragraphs: [{
             textRuns: [{
                 text: 'Here is just a basic line of text.',
@@ -403,6 +427,10 @@ export const test_list_run_formatting: ParseTest = {
         }]
     },
     output: {
+        setup: {
+            hyperlinks: [],
+            numberedLists: 1
+        },
         paragraphs: [{
             textRuns: [{
                 text: 'Here is just a normal line of text.',
@@ -444,6 +472,148 @@ export const test_list_run_formatting: ParseTest = {
     }
 }
 
+export const test_ordered_list_tracking: ParseTest = {
+    input: {
+        ops: [{
+            insert: 'Here is the first bullet point of the first list'
+        },{
+            insert: '\n',
+            attributes: {
+                list: 'ordered'
+            }
+        },{
+            insert: 'And then the second bullet point with some formatting '
+        },{
+            insert: 'underlined text',
+            attributes: {
+                underline: true
+            }
+        },{
+            insert: ' but then back to normal'
+        },{
+            insert: '\n',
+            attributes: {
+                list: 'ordered'
+            }
+        },{
+            insert: '\nAnd then just some regular text in the editor\nBut then we start a new ordered list here'
+        },{
+            insert: '\n',
+            attributes: {
+                list: 'ordered'
+            }
+        },{
+            insert: 'And a second bullet point in second list'
+        },{
+            insert: '\n',
+            attributes: {
+                list: 'ordered',
+                indent: 1
+            }
+        }]
+    },
+    output: {
+        setup: {
+            hyperlinks: [],
+            numberedLists: 2
+        },
+        paragraphs: [{
+            textRuns: [{
+                text: 'Here is the first bullet point of the first list'
+            }],
+            attributes: {
+                list: 'ordered'
+            }
+        },{
+            textRuns: [{
+                text: 'And then the second bullet point with some formatting '
+            },{
+                text: 'underlined text',
+                attributes: {
+                    underline: true
+                }
+            },{
+                text: ' but then back to normal'
+            }],
+            attributes: {
+                list: 'ordered'
+            }
+        },{
+            textRuns: [{
+                text: ''
+            }]
+        },{
+            textRuns: [{
+                text: 'And then just some regular text in the editor'
+            }]
+        },{
+            textRuns: [{
+                text: 'But then we start a new ordered list here'
+            }],
+            attributes: {
+                list: 'ordered'
+            }
+        },{
+            textRuns: [{
+                text: 'And a second bullet point in second list'
+            }],
+            attributes: {
+                list: 'ordered',
+                indent: 1
+            }
+        },{
+            textRuns: []
+        }]
+    }
+}
+
+export const test_hyperlink_tracking: ParseTest = {
+    input: {
+        ops: [{
+            insert: 'I am just writing a string of text with a '
+        },{
+            insert: 'hyperlink to Google',
+            attributes: {
+                link: 'https://google.com'
+            }
+        },{
+            insert: ' and then back to normal.\nThen start a new line and include another hyperlink to '
+        },{
+            insert: 'GitHub',
+            attributes: {
+                link: 'https://github.com'
+            }
+        }]
+    },
+    output: {
+        setup: {
+            hyperlinks: ['https://google.com', 'https://github.com'],
+            numberedLists: 0
+        },
+        paragraphs: [{
+            textRuns: [{
+                text: 'I am just writing a string of text with a '
+            },{
+                text: 'hyperlink to Google',
+                attributes: {
+                    link: 'https://google.com'
+                }
+            },{
+                text: ' and then back to normal.'
+            }]
+        },{
+            textRuns: [{
+                text: 'Then start a new line and include another hyperlink to '
+            },{
+                text: 'GitHub',
+                attributes: {
+                    link: 'https://github.com'
+                }
+            }]
+        }]
+    }
+}
+
 export const test_embed: ParseTest = {
     input: {
         ops: [{
@@ -467,6 +637,10 @@ export const test_embed: ParseTest = {
         }]
     },
     output: {
+        setup: {
+            hyperlinks: [],
+            numberedLists: 0
+        },
         paragraphs: [{
             embed: {
                 image: 'base64string'
@@ -552,6 +726,10 @@ export const test_other_line_formatting: ParseTest = {
         }]
     },
     output: {
+        setup: {
+            hyperlinks: [],
+            numberedLists: 0
+        },
         paragraphs: [{
             textRuns: [{
                 text: 'Here is some basic text.',
@@ -619,6 +797,10 @@ export const test_full_run_format: ParseTest = {
         }]
     },
     output: {
+        setup: {
+            hyperlinks: [],
+            numberedLists: 0
+        },
         paragraphs: [{
             textRuns: [{
                 text: 'Some basic text in the editor.',
@@ -672,6 +854,10 @@ export const test_mixed_run_formatting: ParseTest = {
         }]
     },
     output: {
+        setup: {
+            hyperlinks: [],
+            numberedLists: 0
+        },
         paragraphs: [{
             textRuns: [{
                 text: 'Here is some basic text with mixed run formatting. ',

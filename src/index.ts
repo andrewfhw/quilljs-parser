@@ -98,11 +98,12 @@ function parseOp(op: QuillOp, parsed: ParsedQuillDelta) {
 }
 
 // insert a blank paragraph
-function startNewParagraph(parsed: ParsedQuillDelta) {
+function startNewParagraph(parsed: ParsedQuillDelta, resetList: boolean) {
     parsed.paragraphs.push({
         textRuns: []
     });
-    activeNumberedList = false;
+    console.log('setting active list to false from new paragraph');
+    activeNumberedList = resetList ? false : activeNumberedList;
 }
 
 // inserts a video or image embed
@@ -110,13 +111,13 @@ function insertEmbedParagraph(op: QuillOp, parsed: ParsedQuillDelta) {
     parsed.paragraphs.push({
         embed: op.insert as InsertEmbed
     });
-    startNewParagraph(parsed);
+    startNewParagraph(parsed, true);
 }
 
 // inserts a formula embed
 function insertFormula(op: QuillOp, parsed: ParsedQuillDelta) {
     if (parsed.paragraphs.length === 0) {
-        startNewParagraph(parsed);
+        startNewParagraph(parsed, false);
     }
     parsed.paragraphs[parsed.paragraphs.length-1].textRuns?.push({
         formula: (op.insert as InsertEmbed).formula!,
@@ -130,19 +131,30 @@ function insertNewline(op: QuillOp, parsed: ParsedQuillDelta) {
     if (op.attributes) {
         parsed.paragraphs[parsed.paragraphs.length-1].attributes = op.attributes;
         if (op.attributes.list === 'ordered') {
-            handleOrderedList(parsed);
+            if (activeNumberedList) {
+                startNewParagraph(parsed, false);
+            } else {
+                activeNumberedList = true;
+                parsed.setup.numberedLists++;
+                startNewParagraph(parsed, false);
+            }
         } else {
+            console.log('setting active list to false');
             activeNumberedList = false;
+            startNewParagraph(parsed, true);
         }
+    } else {
+        startNewParagraph(parsed, true);
     }
-    startNewParagraph(parsed);
 }
 
 // handle ordered lists tracking
 function handleOrderedList(parsed: ParsedQuillDelta) {
     if (activeNumberedList) {
+        console.log('list already active');
         return;
     } else {
+        console.log('no active list');
         activeNumberedList = true;
         parsed.setup.numberedLists++;
     }
@@ -151,14 +163,14 @@ function handleOrderedList(parsed: ParsedQuillDelta) {
 // inserts text with intermixed newlines and run attributes
 function insertText(op: QuillOp, parsed: ParsedQuillDelta) {
     if (parsed.paragraphs.length === 0) {
-        startNewParagraph(parsed);
+        startNewParagraph(parsed, false);
     }
     // if it contains newline characters
     if ((op.insert as string).match(/\n/)) {
         const strings = splitStrings((op.insert as string));
         for (const text of strings) {
             if (text === '\n') {
-                startNewParagraph(parsed);
+                startNewParagraph(parsed, true);
             } else {
                 insertSimpleString(text, parsed);
             }
