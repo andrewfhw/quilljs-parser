@@ -52,9 +52,14 @@ export interface Paragraph {
     attributes?: LineAttributes;
 }
 
+export interface QHyperLink {
+    text: string;
+    link: string;
+}
+
 export interface SetupInfo {
     numberedLists: number;
-    hyperlinks: string[];
+    hyperlinks: QHyperLink[];
 }
 
 export interface ParsedQuillDelta {
@@ -63,10 +68,10 @@ export interface ParsedQuillDelta {
 }
 
 // Functions
-
 let activeNumberedList = false;
 
 export function parseQuillDelta(quill: RawQuillDelta): ParsedQuillDelta {
+    activeNumberedList = false;
     const parsed: ParsedQuillDelta = {
         paragraphs: [],
         setup: {
@@ -98,12 +103,10 @@ function parseOp(op: QuillOp, parsed: ParsedQuillDelta) {
 }
 
 // insert a blank paragraph
-function startNewParagraph(parsed: ParsedQuillDelta, resetList: boolean) {
+function startNewParagraph(parsed: ParsedQuillDelta) {
     parsed.paragraphs.push({
         textRuns: []
     });
-    console.log('setting active list to false from new paragraph');
-    activeNumberedList = resetList ? false : activeNumberedList;
 }
 
 // inserts a video or image embed
@@ -111,13 +114,14 @@ function insertEmbedParagraph(op: QuillOp, parsed: ParsedQuillDelta) {
     parsed.paragraphs.push({
         embed: op.insert as InsertEmbed
     });
-    startNewParagraph(parsed, true);
+    activeNumberedList = false;
+    startNewParagraph(parsed);
 }
 
 // inserts a formula embed
 function insertFormula(op: QuillOp, parsed: ParsedQuillDelta) {
     if (parsed.paragraphs.length === 0) {
-        startNewParagraph(parsed, false);
+        startNewParagraph(parsed);
     }
     parsed.paragraphs[parsed.paragraphs.length-1].textRuns?.push({
         formula: (op.insert as InsertEmbed).formula!,
@@ -131,50 +135,39 @@ function insertNewline(op: QuillOp, parsed: ParsedQuillDelta) {
     if (op.attributes) {
         parsed.paragraphs[parsed.paragraphs.length-1].attributes = op.attributes;
         if (op.attributes.list === 'ordered') {
+            // if already an active numbered list
             if (activeNumberedList) {
-                startNewParagraph(parsed, false);
+                // do not increment 
+                // leave active list true
             } else {
-                activeNumberedList = true;
+                // incrememnt
+                // set active to true
                 parsed.setup.numberedLists++;
-                startNewParagraph(parsed, false);
+                activeNumberedList = true;
             }
         } else {
-            console.log('setting active list to false');
             activeNumberedList = false;
-            startNewParagraph(parsed, true);
         }
-    } else {
-        startNewParagraph(parsed, true);
     }
-}
-
-// handle ordered lists tracking
-function handleOrderedList(parsed: ParsedQuillDelta) {
-    if (activeNumberedList) {
-        console.log('list already active');
-        return;
-    } else {
-        console.log('no active list');
-        activeNumberedList = true;
-        parsed.setup.numberedLists++;
-    }
+    startNewParagraph(parsed);
 }
 
 // inserts text with intermixed newlines and run attributes
 function insertText(op: QuillOp, parsed: ParsedQuillDelta) {
     if (parsed.paragraphs.length === 0) {
-        startNewParagraph(parsed, false);
+        startNewParagraph(parsed);
     }
     // if it contains newline characters
     if ((op.insert as string).match(/\n/)) {
         const strings = splitStrings((op.insert as string));
         for (const text of strings) {
             if (text === '\n') {
-                startNewParagraph(parsed, true);
+                startNewParagraph(parsed);
+                activeNumberedList = false;
             } else {
                 insertSimpleString(text, parsed);
             }
-        }
+        };
     } else {
         insertSimpleString(op.insert as string, parsed, op.attributes);
     }
@@ -188,7 +181,7 @@ function insertSimpleString(text: string, parsed: ParsedQuillDelta, attributes?:
             attributes: attributes
         });
         if (attributes.link) {
-            parsed.setup.hyperlinks.push(attributes.link);
+            parsed.setup.hyperlinks.push({ text: text, link: attributes.link });
         }
     } else {
         parsed.paragraphs[parsed.paragraphs.length-1].textRuns?.push({

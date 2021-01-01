@@ -587,7 +587,13 @@ export const test_hyperlink_tracking: ParseTest = {
     },
     output: {
         setup: {
-            hyperlinks: ['https://google.com', 'https://github.com'],
+            hyperlinks: [{
+                text: 'hyperlink to Google',
+                link: 'https://google.com'
+            },{
+                text: 'GitHub',
+                link: 'https://github.com'
+            }],
             numberedLists: 0
         },
         paragraphs: [{

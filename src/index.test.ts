@@ -51,7 +51,7 @@ describe('test parsing', () => {
         expect(parseQuillDelta(test_ordered_list_tracking.input)).toEqual(test_ordered_list_tracking.output);
     });
 
-    test.only('link tracking', () => {
+    test('link tracking', () => {
         expect(parseQuillDelta(test_hyperlink_tracking.input)).toEqual(test_hyperlink_tracking.output);
     });
 
