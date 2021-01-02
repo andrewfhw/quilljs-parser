@@ -14,6 +14,7 @@ export interface RunAttributes {
     strike?: boolean;
     font?: string;
     link?: string;
+    size?: 'small' | 'large' | 'huge';
 }
 
 export interface LineAttributes {
