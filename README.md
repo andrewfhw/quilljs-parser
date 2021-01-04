@@ -1,3 +1,5 @@
+![npm](https://img.shields.io/npm/v/quilljs-parser) ![npm](https://img.shields.io/npm/dm/quilljs-parser)
+
 # QuillJS Parser
 Transform your [QuillJS](https://quilljs.com) contents into an easier-to-use paragraph format.
 
