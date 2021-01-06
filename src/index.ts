@@ -195,6 +195,3 @@ function insertSimpleString(text: string, parsed: ParsedQuillDelta, attributes?:
 function splitStrings(string: string): string[] {
     return string.split(/(\n)/);
 }
-
-
-
