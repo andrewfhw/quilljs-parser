@@ -27,9 +27,9 @@ export interface LineAttributes {
     "code-block"?: boolean;
 }
 
-interface Attributes extends RunAttributes, LineAttributes {}
+export interface Attributes extends RunAttributes, LineAttributes {}
 
-interface QuillOp {
+export interface QuillOp {
     insert?: string | InsertEmbed;
     attributes?: Attributes;
     lineAttributes?: LineAttributes;
