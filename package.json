@@ -1,6 +1,6 @@
 {
   "name": "quilljs-parser",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Parse QuillJS delta object into easy-to-use paragraph object.",
   "main": "./dist/main.js",
   "types": "./dist/src/index.d.ts",
