@@ -1,4 +1,4 @@
-![npm](https://img.shields.io/npm/v/quilljs-parser) ![Travis (.org)](https://img.shields.io/travis/com/andrewraygilbert/quilljs-parser) ![GitHub last commit](https://img.shields.io/github/last-commit/andrewraygilbert/quilljs-parser) ![GitHub issues](https://img.shields.io/github/issues/andrewraygilbert/quilljs-parser) ![NPM](https://img.shields.io/npm/l/quilljs-parser) ![npm](https://img.shields.io/npm/dm/quilljs-parser)
+![npm](https://img.shields.io/npm/v/quilljs-parser) ![Travis (.org)](https://img.shields.io/travis/com/andrewanthro/quilljs-parser) ![GitHub last commit](https://img.shields.io/github/last-commit/andrewanthro/quilljs-parser) ![GitHub issues](https://img.shields.io/github/issues/andrewanthro/quilljs-parser) ![NPM](https://img.shields.io/npm/l/quilljs-parser) ![npm](https://img.shields.io/npm/dm/quilljs-parser)
 
 # QuillJS Parser
 Transform your [QuillJS](https://quilljs.com) contents into an easier-to-use paragraph format.
